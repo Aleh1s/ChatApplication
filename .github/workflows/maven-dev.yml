@@ -45,11 +45,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Docker-compose
-        run: docker compose up
-
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn install -DskipTests
 
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
