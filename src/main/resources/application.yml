@@ -1,3 +1,8 @@
 spring:
   profiles:
     active: dev
+
+token:
+  secret: helloworld
+  valid-time: 360000000
+  valid-refresh-time: 720000000
