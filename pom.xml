@@ -76,6 +76,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>chat-application</finalName>
     </build>
 
 </project>
