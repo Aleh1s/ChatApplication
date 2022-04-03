@@ -1,5 +1,6 @@
 package com.palamar.chatapplication.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.palamar.chatapplication.entity.ChatEntity;
 import com.palamar.chatapplication.entity.MessageEntity;
 import lombok.*;
@@ -10,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Setter
@@ -48,11 +51,11 @@ public class UserEntity {
     @Enumerated(STRING)
     private UserRole userRole;
 
-    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    @Setter(PRIVATE)
+    @ManyToMany(mappedBy = "members", fetch = LAZY)
     private Set<ChatEntity> chats = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "sender")
-    private Set<MessageEntity> messages = new HashSet<>();
 
 }
 

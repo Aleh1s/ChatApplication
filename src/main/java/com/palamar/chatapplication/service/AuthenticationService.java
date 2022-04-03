@@ -48,7 +48,7 @@ public class AuthenticationService {
         String token = tokenProvider.generateToken(user);
         String refreshToken = tokenProvider.generateRefreshToken(user);
         AuthenticationResponse authorizationResponse =
-                new AuthenticationResponse(token, refreshToken);
+                new AuthenticationResponse("Bearer_" + token, "Bearer_" + refreshToken, user.getUsername());
 
         return new ResponseEntity<>(authorizationResponse, HttpStatus.ACCEPTED);
     }

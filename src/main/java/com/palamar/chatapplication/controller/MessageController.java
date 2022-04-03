@@ -1,32 +1,33 @@
 package com.palamar.chatapplication.controller;
 
-import com.palamar.chatapplication.entity.MessageEntity;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.palamar.chatapplication.body.request.MessageRequest;
+import com.palamar.chatapplication.body.response.MessageResponse;
+import com.palamar.chatapplication.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-@Configuration
-@Slf4j
+@Controller
+@CrossOrigin("http://localhost:3000")
 public class MessageController {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
-
-    private Logger logger = LoggerFactory.getLogger(MessageController.class);
+    private final MessageService messageService;
 
     @Autowired
-    public MessageController(SimpMessagingTemplate simpMessagingTemplate) {
+    public MessageController(SimpMessagingTemplate simpMessagingTemplate,
+                             MessageService messageService) {
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.messageService = messageService;
     }
 
     @MessageMapping("/private-message")
-    public MessageEntity sendMessage(@Payload MessageEntity message) {
-        logger.info(message.toString());
-        simpMessagingTemplate.convertAndSendToUser(message.getReceiver(), "/private", message); // /user/{name}/private
-        return message;
+    public MessageResponse sendMessage(@Payload MessageRequest messageRequest) {
+        messageService.saveMessage(messageRequest);
+        simpMessagingTemplate.convertAndSendToUser(messageRequest.to(), "/private", messageRequest); // /user/{name}/private
+        return new MessageResponse(messageRequest.text(), messageRequest.from(), messageRequest.to());
     }
 }

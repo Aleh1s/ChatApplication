@@ -1,5 +1,6 @@
 package com.palamar.chatapplication.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.palamar.chatapplication.entity.user.UserEntity;
 import lombok.*;
 
@@ -7,6 +8,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Setter
@@ -27,6 +30,11 @@ public class ChatEntity {
     )
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String chatBetween;
+
+    @JsonIgnore
+    @Setter(PRIVATE)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             joinColumns = {@JoinColumn},
@@ -34,6 +42,7 @@ public class ChatEntity {
     )
     private Set<UserEntity> members = new HashSet<>();
 
+    @Setter(PRIVATE)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "chat", orphanRemoval = true)
     private Set<MessageEntity> messages = new HashSet<>();
 

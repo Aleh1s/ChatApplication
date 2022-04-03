@@ -1,5 +1,6 @@
 package com.palamar.chatapplication.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.palamar.chatapplication.entity.user.UserEntity;
 import lombok.*;
 
@@ -28,15 +29,15 @@ public class MessageEntity {
     )
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private UserEntity sender;
+    @Column(nullable = false)
+    private String sender;
 
     @Column(nullable = false)
     private String receiver;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     private ChatEntity chat;
 
     @Column(nullable = false)

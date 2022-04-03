@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toSet;
 
 public enum UserRole {
 
-    USER(Sets.newHashSet(SEND_MESSAGE, READ_MESSAGE, CREATE_CHAT, DELETE_CHAT)),
+    USER(Sets.newHashSet(SEND_MESSAGE, READ_MESSAGE, CREATE_CHAT, DELETE_CHAT, READ_USER)),
     ADMIN(Sets.newHashSet(BLOCK_USER, READ_USER, WRITE_USER));
 
     private final Set<UserPermission> userPermissions;
