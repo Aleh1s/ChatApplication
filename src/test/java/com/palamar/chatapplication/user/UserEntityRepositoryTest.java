@@ -34,7 +34,7 @@ public class UserEntityRepositoryTest {
 
         userRepository.save(given);
 
-        UserEntity expected = userRepository.findUserEntityByUsername(username)
+        UserEntity expected = userRepository.findUserByUsername(username)
                 .orElse(null);
 
         assertThat(expected.getId()).isNotNull();

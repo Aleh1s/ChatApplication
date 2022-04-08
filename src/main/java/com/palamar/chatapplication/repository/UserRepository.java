@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     boolean existsUserEntitiesByEmail(String email);
 
-    Optional<UserEntity> findUserEntityByUsername(String username);
+    Optional<UserEntity> findUserByUsername(String username);
 
     @Query("select u from UserEntity u join fetch u.chats where u.username = :username")
     Optional<UserEntity> findUserByUsernameFetchChats(String username);

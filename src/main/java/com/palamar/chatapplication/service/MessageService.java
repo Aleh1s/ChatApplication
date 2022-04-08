@@ -40,9 +40,13 @@ public class MessageService {
     }
 
     @Transactional
-    public Set<Message> getMessagesByUsers(String firstChatMemberUsername, String secondChatMemberUsername) {
+    public Set<Message> getMessagesByUsernames(String firstChatMemberUsername, String secondChatMemberUsername) {
         UserEntity firstMember = userRepository.findUserByUsernameFetchChats(firstChatMemberUsername)
-                .orElseThrow();
+                .orElse(null);
+
+        if (firstMember == null)
+            firstMember = userRepository.findUserByUsername(firstChatMemberUsername)
+                    .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
 
         Chat mutualChat = chatService.getMutualChatByUserEntityAndUsername(firstMember, secondChatMemberUsername);
 

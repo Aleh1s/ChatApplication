@@ -27,7 +27,7 @@ public class UserService {
     }
 
     public UserEntity getUserByUsername(String username) {
-        return userRepository.findUserEntityByUsername(username)
+        return userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
     }
 

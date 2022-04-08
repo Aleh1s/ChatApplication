@@ -6,7 +6,6 @@ import com.palamar.chatapplication.entity.Chat;
 import com.palamar.chatapplication.entity.user.UserEntity;
 import com.palamar.chatapplication.repository.ChatRepository;
 import com.palamar.chatapplication.repository.UserRepository;
-import jdk.jfr.TransitionTo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,10 +60,10 @@ public class ChatService {
     }
 
     public Chat createChatIfDoesNotExist(String firstChatMemberUsername, String secondChatMemberUsername) {
-        UserEntity firstMember = userRepository.findUserEntityByUsername(firstChatMemberUsername)
+        UserEntity firstMember = userRepository.findUserByUsername(firstChatMemberUsername)
                 .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
 
-        UserEntity secondMember = userRepository.findUserEntityByUsername(secondChatMemberUsername)
+        UserEntity secondMember = userRepository.findUserByUsername(secondChatMemberUsername)
                 .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
 
         Chat newChat = Chat.builder()
@@ -78,7 +77,7 @@ public class ChatService {
     }
 
     public Chat createChatIfDoesNotExist(UserEntity firstMember, String secondChatMemberUsername) {
-        UserEntity secondMember = userRepository.findUserEntityByUsername(secondChatMemberUsername)
+        UserEntity secondMember = userRepository.findUserByUsername(secondChatMemberUsername)
                 .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
 
         Chat newChat = Chat.builder()

@@ -49,12 +49,12 @@ public class UserEntityServiceTest {
         String username = "Alex";
 
         ArgumentCaptor<String> usernameCaptor = ArgumentCaptor.forClass(String.class);
-        when(userRepository.findUserEntityByUsername(username))
+        when(userRepository.findUserByUsername(username))
                 .thenReturn(Optional.of(new UserEntity()));
 
         userService.getUserByUsername(username);
 
-        verify(userRepository).findUserEntityByUsername(usernameCaptor.capture());
+        verify(userRepository).findUserByUsername(usernameCaptor.capture());
         assertThat(username).isEqualTo(usernameCaptor.getValue());
     }
 

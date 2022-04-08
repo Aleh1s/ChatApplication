@@ -24,7 +24,7 @@ public class MessageController {
             @PathVariable String secondMemberUsername
     ) {
         return new ResponseEntity<>(
-                messageService.getMessagesByUsers(firstMemberUsername, secondMemberUsername),
+                messageService.getMessagesByUsernames(firstMemberUsername, secondMemberUsername),
                 HttpStatus.ACCEPTED
         );
     }
