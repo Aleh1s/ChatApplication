@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserDetailsServiceImplTest {
+public class UserEntityDetailsServiceImplTest {
 
     private UserDetailsServiceImpl userDetailsService;
 
@@ -42,7 +42,7 @@ public class UserDetailsServiceImplTest {
                 .userStatus(ACTIVE)
                 .userRole(USER).build();
 
-        when(userRepository.findUserEntityByEmail(email))
+        when(userRepository.findUserByEmail(email))
                 .thenReturn(Optional.of(user));
 
         UserDetails created = userDetailsService.loadUserByUsername(email);

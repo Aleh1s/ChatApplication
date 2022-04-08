@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserEntityServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -37,9 +37,9 @@ public class UserServiceTest {
         ArgumentCaptor<String> emailCaptor =
                 ArgumentCaptor.forClass(String.class);
 
-        userService.emailExists(email);
+        userService.existsUserWithEmail(email);
 
-        verify(userRepository).existsUserEntityByEmail(emailCaptor.capture());
+        verify(userRepository).existsUserEntitiesByEmail(emailCaptor.capture());
 
         assertThat(emailCaptor.getValue()).isEqualTo(email);
     }

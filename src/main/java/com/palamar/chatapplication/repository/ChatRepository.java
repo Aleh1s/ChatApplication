@@ -1,18 +1,17 @@
 package com.palamar.chatapplication.repository;
 
-import com.palamar.chatapplication.entity.ChatEntity;
+import com.palamar.chatapplication.entity.Chat;
+import com.palamar.chatapplication.entity.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ChatRepository extends JpaRepository<ChatEntity, Long> {
+public interface ChatRepository extends JpaRepository<Chat, Long> {
 
-    @Query("select c from ChatEntity c where c.chatBetween = :chatBetweenFromTo or c.chatBetween = :chatBetweenToFrom")
-    Optional<ChatEntity> findChatEntityByChatBetween(String chatBetweenFromTo, String chatBetweenToFrom);
+    Optional<Chat> getChatById(Long id);
 
-    @Query("select c from ChatEntity c join fetch c.messages where c.chatBetween = :chatBetweenFromTo or c.chatBetween = :chatBetweenToFrom")
-    Optional<ChatEntity> findChatEntityByChatBetweenJoinFetchMessages(String chatBetweenFromTo, String chatBetweenToFrom);
+
+
 }

@@ -4,7 +4,11 @@ const registerUrl = 'http://localhost:8081/api/v1/registration/register'
 const loginUrl = 'http://localhost:8081/api/v1/authentication/login'
 const getAllUsersUrl = 'http://localhost:8081/api/v1/users'
 const getReceiverUrl = 'http://localhost:8081/api/v1/users/'
+const getMessagesUrl = 'http://localhost:8081/api/v1/messages'
 const getChatUrl = 'http://localhost:8081/api/v1/chats'
+const getMessagesByChatIdUrl = 'http://localhost:8081/api/v1/messages'
+const getChatsByUsernameUrl = 'http://localhost:8081/api/v1/chats'
+const getPagingSortedMessagePageByChatId = 'http://localhost:8081/api/v1/messages/pages/sort/'
 
 export const doRegister = (data, setStatus) => {
     const register = axios.post(registerUrl, data)
@@ -45,8 +49,45 @@ export const doGetReceiver = (username) => {
     })
 }
 
+export const doGetMessages = (member1, member2) => {
+    return axios.get(getMessagesUrl + '/' + member1 + '/' +member2, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+}
+
 export const doGetChat = (member1, member2) => {
-    return axios.get(getChatUrl + '/' + member1 + '/' +member2, {
+    return axios.get(getChatUrl + '/' + member1 + '/' + member2, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+}
+
+export const doGetMessagesByChatId = (id) => {
+    return axios.get(getMessagesByChatIdUrl + '/' + id, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+}
+
+export const doGetChatsByUsername = (username) => {
+    return axios.get(getChatsByUsernameUrl + '/' + username, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token'),
+            'Access-Control-Allow-Origin': '*'
+        }
+    })
+}
+
+export const doGetPagingSortedMessagePageByChatId = (chatId) => {
+    return axios.get(getPagingSortedMessagePageByChatId + chatId, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': localStorage.getItem('token')

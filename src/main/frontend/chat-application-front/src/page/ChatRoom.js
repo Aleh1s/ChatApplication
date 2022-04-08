@@ -3,23 +3,35 @@ import { useState } from 'react'
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import MessageList from "./MessageList";
-import {doGetChat} from "../Queries";
+import {doGetChat, doGetMessages, doGetMessagesByChatId, doGetPagingSortedMessagePageByChatId} from "../Queries";
+import {useNavigate} from "react-router-dom";
+
 
 let stompClient = null
+
 const ChatRoom = () => {
 
+    const navigate = useNavigate()
+    const [chatId, setChatId] = useState(null)
+    const [username, setUsername] = useState('')
+    const [receiver, setReceiver] = useState('')
     const [textMessage, setTextMessage] = useState('')
-    const [logStatus, setLogStatus] = useState(JSON.parse(localStorage.getItem('logStatus')))
-    const [username, setUsername] = useState(localStorage.getItem('username'))
-    const [receiver, setReceiver] = useState(localStorage.getItem('receiver'))
     const [messages, setMessages] = useState([])
 
     useEffect(() => {
-        fetchMessages()
-        if (logStatus) {
+        setChatId(localStorage.getItem('currentChatId'))
+        setUsername(localStorage.getItem('username'))
+        setReceiver(localStorage.getItem('receiver'))
+        if (username !== '') {
             connect()
         }
-    }, [])
+    }, [chatId, username])
+
+    useEffect(() => {
+        if (chatId !== null) {
+            fetchMessages()
+        }
+    }, [chatId])
 
     function connect() {
         let socket = new SockJS('http://localhost:8081/ws');
@@ -32,28 +44,26 @@ const ChatRoom = () => {
         stompClient.subscribe(`/user/${username}/private`, onSubscribe)
     }
 
-    const onSubscribe = () => {
-        fetchMessages()
+    const onSubscribe = (messages) => {
+        setMessages(JSON.parse(messages.body).messages.content)
     }
 
     const fetchMessages = () => {
-        doGetChat(username, receiver)
-            .then(response => setMessages(response.data.messages))
+        doGetPagingSortedMessagePageByChatId(chatId)
+            .then(response => setMessages(response.data.content))
             .catch(err => console.log(err))
     }
 
-    const send = () => {
+    function send() {
         if (stompClient) {
             let chatMessage = {
+                chatId: chatId,
                 text: textMessage,
                 from: username,
                 to: receiver
             }
             stompClient.send('/app/private-message', {}, JSON.stringify(chatMessage))
             setTextMessage('')
-            setTimeout(() => {
-                fetchMessages()
-            }, 400)
         }
     }
 

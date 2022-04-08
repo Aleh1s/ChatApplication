@@ -4,7 +4,6 @@ import com.palamar.chatapplication.entity.user.UserEntity;
 import com.palamar.chatapplication.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,8 +18,8 @@ public class UserService {
     }
 
 
-    public boolean emailExists(String email) {
-        return userRepository.existsUserEntityByEmail(email);
+    public boolean existsUserWithEmail(String email) {
+        return userRepository.existsUserEntitiesByEmail(email);
     }
 
     public List<UserEntity> getAllUsers() {

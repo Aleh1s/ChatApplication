@@ -18,9 +18,22 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @GetMapping("/{member1}/{member2}")
-    public ResponseEntity<Object> getChatByIdJoinFetchMessage(@PathVariable String member1, @PathVariable String member2) {
-        return new ResponseEntity<>(chatService.getChatByChatBetweenJoinFetchMessages(member1, member2), HttpStatus.ACCEPTED);
+    @GetMapping("/{firstChatMemberUsername}/{secondChatMemberUsername}")
+    public ResponseEntity<Object> getMutualChatByUsernames(
+            @PathVariable String firstChatMemberUsername,
+            @PathVariable String secondChatMemberUsername
+    ) {
+        return new ResponseEntity<>(
+                chatService.getMutualChatFetchMessagesByUsernames(
+                        firstChatMemberUsername,
+                        secondChatMemberUsername
+                ), HttpStatus.ACCEPTED
+        );
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<Object> getChatsByUsername(@PathVariable String username) {
+        return new ResponseEntity<>(chatService.getChatsDataByUsername(username), HttpStatus.ACCEPTED);
     }
 
 }

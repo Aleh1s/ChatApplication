@@ -32,7 +32,7 @@ public class AuthenticationService {
     public ResponseEntity<Object> login (AuthenticationRequest request){
 
         String email = request.email();
-        UserEntity user = userRepository.findUserEntityByEmail(email)
+        UserEntity user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
 
         boolean isPasswordValid = passwordEncoder.matches(request.password(), user.getPassword());

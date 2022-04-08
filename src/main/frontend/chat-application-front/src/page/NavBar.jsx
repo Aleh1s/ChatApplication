@@ -13,6 +13,7 @@ const NavBar = () => {
                     <Nav.Link><Link className="nav-link active" to={"/register"}>Register</Link></Nav.Link>
                     <Nav.Link><Link className="nav-link active" to={"/login"}>Login</Link></Nav.Link>
                     <Nav.Link><Link className="nav-link active" to={"/users"}>Users</Link></Nav.Link>
+                    <Nav.Link><Link className="nav-link active" to={"/chats"}>Chats</Link></Nav.Link>
                     <Nav.Link><Link className="nav-link active" to={"/profile"}>{localStorage.getItem('username')}</Link></Nav.Link>
                 </Nav>
             </Container>

@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.HashSet;
 
 import static com.palamar.chatapplication.entity.user.UserRole.*;
+import static com.palamar.chatapplication.entity.user.UserStatus.ACTIVE;
 
 @Service
 public class RegistrationService {
@@ -39,17 +39,17 @@ public class RegistrationService {
             throw new IllegalStateException("email must be not null");
         }
 
-        if (userService.emailExists(email)) {
+        if (userService.existsUserWithEmail(email)) {
             throw new IllegalStateException("email already exists");
         }
 
-        UserEntity user = UserEntity.builder()
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .username(request.username())
-                .userRole(USER)
-                .userStatus(UserStatus.ACTIVE)
-                .build();
+        UserEntity user = new UserEntity(
+                request.email(),
+                passwordEncoder.encode(request.password()),
+                request.username(),
+                ACTIVE,
+                USER
+        );
 
         userRepository.save(user);
 

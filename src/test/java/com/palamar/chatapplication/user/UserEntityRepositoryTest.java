@@ -1,8 +1,6 @@
 package com.palamar.chatapplication.user;
 
 import com.palamar.chatapplication.entity.user.UserEntity;
-import com.palamar.chatapplication.entity.user.UserRole;
-import com.palamar.chatapplication.entity.user.UserStatus;
 import com.palamar.chatapplication.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +12,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @DataJpaTest
-public class UserRepositoryTest {
+public class UserEntityRepositoryTest {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserRepositoryTest(UserRepository userRepository) {
+    public UserEntityRepositoryTest(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

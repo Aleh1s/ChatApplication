@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatEntity {
+public class Chat {
 
     @Id
     @SequenceGenerator(
@@ -30,9 +30,6 @@ public class ChatEntity {
     )
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String chatBetween;
-
     @JsonIgnore
     @Setter(PRIVATE)
     @ManyToMany(fetch = FetchType.LAZY)
@@ -43,8 +40,11 @@ public class ChatEntity {
     private Set<UserEntity> members = new HashSet<>();
 
     @Setter(PRIVATE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "chat", orphanRemoval = true)
-    private Set<MessageEntity> messages = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "chat",
+            orphanRemoval = true)
+    private Set<Message> messages = new HashSet<>();
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -52,26 +52,26 @@ public class ChatEntity {
     @Column
     private LocalDateTime deletedAt;
 
-    public void addUsersToChat(UserEntity ...users) {
+    public void addUsersToChat(UserEntity...users) {
         for (int i = 0; i < users.length; i++) {
             this.members.add(users[i]);
             users[i].getChats().add(this);
         }
     }
 
-    public void removeUsersFromChat(UserEntity ...users) {
+    public void removeUsersFromChat(UserEntity...users) {
         for (int i = 0; i < users.length; i++) {
             this.members.remove(users[i]);
             users[i].getChats().remove(this);
         }
     }
 
-    public void addMessageToChat(MessageEntity message) {
+    public void addMessageToChat(Message message) {
         this.messages.add(message);
         message.setChat(this);
     }
 
-    public void removeMessageFromChat(MessageEntity message) {
+    public void removeMessageFromChat(Message message) {
         this.messages.remove(message);
         message.setChat(null);
     }

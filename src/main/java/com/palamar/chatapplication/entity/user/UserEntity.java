@@ -1,12 +1,10 @@
 package com.palamar.chatapplication.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.palamar.chatapplication.entity.ChatEntity;
-import com.palamar.chatapplication.entity.MessageEntity;
+import com.palamar.chatapplication.entity.Chat;
 import lombok.*;
 
 import javax.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,9 +52,19 @@ public class UserEntity {
     @JsonIgnore
     @Setter(PRIVATE)
     @ManyToMany(mappedBy = "members", fetch = LAZY)
-    private Set<ChatEntity> chats = new HashSet<>();
+    private Set<Chat> chats = new HashSet<>();
 
-
+    public UserEntity(String email,
+                      String password,
+                      String username,
+                      UserStatus userStatus,
+                      UserRole userRole) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.userStatus = userStatus;
+        this.userRole = userRole;
+    }
 }
 
 
