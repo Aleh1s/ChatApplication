@@ -52,6 +52,9 @@ public class Chat {
     @Column
     private LocalDateTime deletedAt;
 
+    @Column
+    private LocalDateTime lastActivity;
+
     public void addUsersToChat(UserEntity...users) {
         for (int i = 0; i < users.length; i++) {
             this.members.add(users[i]);

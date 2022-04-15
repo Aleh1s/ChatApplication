@@ -103,6 +103,7 @@ public class MessageService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
+        currentChat.setLastActivity(LocalDateTime.now());
         currentChat.addMessageToChat(newMessage);
         messageRepository.save(newMessage);
 

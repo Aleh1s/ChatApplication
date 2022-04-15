@@ -9,6 +9,10 @@ const getChatUrl = 'http://localhost:8081/api/v1/chats'
 const getMessagesByChatIdUrl = 'http://localhost:8081/api/v1/messages'
 const getChatsByUsernameUrl = 'http://localhost:8081/api/v1/chats'
 const getPagingSortedMessagePageByChatId = 'http://localhost:8081/api/v1/messages/pages/sort/'
+const postProfileImageUrl = 'http://localhost:8081/api/v1/users/profile/image/'
+const profileImageExistsUrl = 'http://localhost:8081/api/v1/users/profile/image/status/'
+const getUserProfileUrl = 'http://localhost:8081/api/v1/users/profile/'
+const postUpdateProfile = 'http://localhost:8081/api/v1/users/profile/'
 
 export const doRegister = (data, setStatus) => {
     const register = axios.post(registerUrl, data)
@@ -88,6 +92,41 @@ export const doGetChatsByUsername = (username) => {
 
 export const doGetPagingSortedMessagePageByChatId = (chatId) => {
     return axios.get(getPagingSortedMessagePageByChatId + chatId, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+}
+
+export const doPostProfileImage = (imageData) => {
+    return axios.post(postProfileImageUrl + localStorage.getItem('username'), imageData, {
+        headers: {
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+}
+
+export const doProfileImageExists = () => {
+    return axios.get(profileImageExistsUrl + localStorage.getItem('username'), {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+}
+
+export const doGetUserProfile = () => {
+    return axios.get(getUserProfileUrl + localStorage.getItem('username'), {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        }
+    })
+}
+
+export const doUpdateProfile = (data) => {
+    return axios.post(postUpdateProfile + localStorage.getItem('username'), data, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': localStorage.getItem('token')

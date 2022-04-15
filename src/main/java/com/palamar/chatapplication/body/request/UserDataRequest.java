@@ -1,4 +1,4 @@
-package com.palamar.chatapplication.body.response;
+package com.palamar.chatapplication.body.request;
 
 public record UserDataRequest(
         Long id,

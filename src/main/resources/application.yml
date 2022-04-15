@@ -3,6 +3,7 @@ spring:
     active: dev
 
 token:
-  secret: helloworld
+  secret: DEC(helloworld)
   valid-time: 360000000
   valid-refresh-time: 720000000
+

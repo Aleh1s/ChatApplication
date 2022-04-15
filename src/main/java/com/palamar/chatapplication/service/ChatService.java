@@ -1,7 +1,7 @@
 package com.palamar.chatapplication.service;
 
 import com.palamar.chatapplication.body.response.ChatDataRequest;
-import com.palamar.chatapplication.body.response.UserDataRequest;
+import com.palamar.chatapplication.body.request.UserDataRequest;
 import com.palamar.chatapplication.entity.Chat;
 import com.palamar.chatapplication.entity.user.UserEntity;
 import com.palamar.chatapplication.repository.ChatRepository;
@@ -42,6 +42,7 @@ public class ChatService {
         return mutualChat;
     }
 
+    @Transactional
     public Chat getMutualChatFetchMessagesByUsernames(String firstChatMemberUsername, String secondChatMemberUsername) {
         UserEntity firstMember = userRepository.findUserByUsernameFetchChats(firstChatMemberUsername)
                 .orElse(null);
@@ -59,6 +60,7 @@ public class ChatService {
         return mutualChat;
     }
 
+    @Transactional
     public Chat createChatIfDoesNotExist(String firstChatMemberUsername, String secondChatMemberUsername) {
         UserEntity firstMember = userRepository.findUserByUsername(firstChatMemberUsername)
                 .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
@@ -76,6 +78,7 @@ public class ChatService {
         return chatRepository.save(newChat);
     }
 
+    @Transactional
     public Chat createChatIfDoesNotExist(UserEntity firstMember, String secondChatMemberUsername) {
         UserEntity secondMember = userRepository.findUserByUsername(secondChatMemberUsername)
                 .orElseThrow(() -> new IllegalArgumentException("user does not exist"));
@@ -93,14 +96,17 @@ public class ChatService {
     @Transactional
     public Set<ChatDataRequest> getChatsDataByUsername(String username) {
         UserEntity currentUser = userRepository.findUserByUsernameFetchChats(username)
-                .orElseThrow(() -> new IllegalArgumentException("chat does not exist"));
+                .orElse(null);
+
+        if (currentUser == null)
+            return null;
 
         Set<Chat> chats = currentUser.getChats();
 
         return chats.stream()
                 .map(chat -> new ChatDataRequest(chat.getId(), chat.getMembers().stream()
                         .map(member -> new UserDataRequest(member.getId(), member.getUsername()))
-                        .collect(Collectors.toSet())))
+                        .collect(Collectors.toSet()), chat.getLastActivity()))
                 .collect(Collectors.toSet());
     }
 }

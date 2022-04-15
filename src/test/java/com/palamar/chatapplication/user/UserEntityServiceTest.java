@@ -1,6 +1,7 @@
 package com.palamar.chatapplication.user;
 
 import com.palamar.chatapplication.entity.user.UserEntity;
+import com.palamar.chatapplication.repository.ImageRepository;
 import com.palamar.chatapplication.repository.UserRepository;
 import com.palamar.chatapplication.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,11 +23,14 @@ public class UserEntityServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private ImageRepository imageRepository;
+
     private UserService userService;
 
     @BeforeEach
     public void setUp() {
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, imageRepository);
     }
 
 
@@ -64,5 +68,37 @@ public class UserEntityServiceTest {
 
         assertThatThrownBy(() -> userService.getUserByUsername(username))
                 .hasMessageContaining("user does not exist");
+    }
+
+    @Test
+    void existsUserWithEmail() {
+    }
+
+    @Test
+    void getAllUsers() {
+    }
+
+    @Test
+    void getProfileImageByUsername() {
+    }
+
+    @Test
+    void updateProfileImageByUsername() {
+    }
+
+    @Test
+    void addProfileImage() {
+    }
+
+    @Test
+    void profileImageExists() {
+    }
+
+    @Test
+    void getUserProfileDataByUsername() {
+    }
+
+    @Test
+    void updateProfile() {
     }
 }

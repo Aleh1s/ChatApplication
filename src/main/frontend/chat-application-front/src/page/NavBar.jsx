@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Container, Navbar, Nav} from "react-bootstrap";
+import {Container, Navbar, Nav, NavDropdown} from "react-bootstrap";
 
 const NavBar = () => {
     return (
-    <>
+        <>
         <Navbar bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand><Link className="nav-link active" to={"/"}>Home</Link></Navbar.Brand>
@@ -18,7 +18,7 @@ const NavBar = () => {
                 </Nav>
             </Container>
         </Navbar>
-    < />
+        < />
     );
 };
 

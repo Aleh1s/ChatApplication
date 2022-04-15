@@ -1,10 +1,9 @@
-import React, {useEffect, useMemo} from 'react';
-import { useState } from 'react'
+import React, {useEffect, useState} from 'react';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import MessageList from "./MessageList";
-import {doGetChat, doGetMessages, doGetMessagesByChatId, doGetPagingSortedMessagePageByChatId} from "../Queries";
+import {doGetPagingSortedMessagePageByChatId} from "../Queries";
 import {useNavigate} from "react-router-dom";
+import {Button, Col, Container, Form, FormControl, InputGroup, ListGroup, Row} from "react-bootstrap";
 
 
 let stompClient = null
@@ -17,6 +16,11 @@ const ChatRoom = () => {
     const [receiver, setReceiver] = useState('')
     const [textMessage, setTextMessage] = useState('')
     const [messages, setMessages] = useState([])
+
+    const getData = async (chatId, receiver) => {
+        await setChatId(chatId)
+        await setReceiver(receiver)
+    }
 
     useEffect(() => {
         setChatId(localStorage.getItem('currentChatId'))
@@ -68,13 +72,54 @@ const ChatRoom = () => {
     }
 
     return (
-        <div>
-            <div>
-                <input id={'my-mes-field'} type={'text'} placeholder={'Message'} onChange={event => setTextMessage(event.target.value)} value={textMessage}/>
-                <button onClick={() => send()}>Send</button>
-                <MessageList messages={messages}/>
-            </div>
-        </div>
+        <Container>
+            <h1 className={'shadow-sm text-primary mt-1 p-3 text-center rounded'}>Chat with {receiver}</h1>
+            <Row>
+                <Col lg={5} md={6} sm={12} className={'p-1 m-auto shadow-sm rounded-lg'}>
+                    <ListGroup variant={'flush'} className={'content-align-end'}>
+                        {messages.map(message => message.sender === localStorage.getItem("username") ?
+                            <ListGroup.Item
+                                as="li"
+                                className="d-flex justify-content-between align-item"
+                                variant={'success'}
+                            >
+                                <div className="ms-2 me-auto">
+                                    <div className="fw-bold">{message.sender}</div>
+                                    {message.text}
+                                </div>
+                                <small>{message.createdAt}</small>
+                            </ListGroup.Item>
+                            : <ListGroup.Item
+                                as="li"
+                                className="d-flex justify-content-between align-items-start"
+                                variant={'danger'}
+                            >
+                                <div className="ms-2 me-auto">
+                                    <div className="fw-bold">{message.sender}</div>
+                                    {message.text}
+                                </div>
+                                <small>{message.createdAt}</small>
+                            </ListGroup.Item>)}
+                    </ListGroup>
+                    <Form>
+                        <Form.Group className={'mb-3'}>
+
+                        </Form.Group>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                                placeholder="Message"
+                                aria-label="Recipient's username"
+                                aria-describedby="basic-addon2"
+                                onChange={event => setTextMessage(event.target.value)} value={textMessage}
+                            />
+                            <Button variant="outline-primary" id="button-addon2" onClick={() => send()}>
+                                Send
+                            </Button>
+                        </InputGroup>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

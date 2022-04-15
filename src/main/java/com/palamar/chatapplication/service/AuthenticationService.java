@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.palamar.chatapplication.entity.user.UserStatus.ACTIVE;
 
@@ -29,6 +30,7 @@ public class AuthenticationService {
         this.tokenProvider = tokenProvider;
     }
 
+    @Transactional
     public ResponseEntity<Object> login (AuthenticationRequest request){
 
         String email = request.email();

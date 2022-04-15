@@ -1,10 +1,14 @@
 import React from 'react';
+import {Alert, Button, Container, Image} from "react-bootstrap";
 
 const NotFoundedPage = () => {
     return (
-        <div align={'center'}>
-            <h1>Page not founded</h1>
-        </div>
+        <Image src={'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'}
+               rounded={true}
+        height={'200'}
+        width={'300'}>
+
+        </Image>
     );
 };
 
